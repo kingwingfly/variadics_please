@@ -60,7 +60,7 @@ jobs:
         with:
           toolchain: ${{ env.NIGHTLY_TOOLCHAIN }}
       - name: Test with docsrs cfg
-        run: cargo test --workspace --lib --bins --tests
+        run: cargo test --workspace --exclude benches --lib --bins --tests
         env:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "--cfg docsrs"
