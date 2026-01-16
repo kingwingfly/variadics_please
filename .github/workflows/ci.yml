@@ -41,7 +41,8 @@ jobs:
         env:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "-C debuginfo=0 -D warnings"
-      - uses: dtolnay/rust-toolchain@master
+      - name: Install nightly toolchain
+        uses: dtolnay/rust-toolchain@master
         if: matrix.os == 'ubuntu-latest'
         with:
           toolchain: ${{ env.NIGHTLY_TOOLCHAIN }}
