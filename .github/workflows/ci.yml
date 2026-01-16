@@ -41,28 +41,13 @@ jobs:
         env:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "-C debuginfo=0 -D warnings"
-
-  test-with-docsrs:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/cache@v5
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: ${{ runner.os }}-cargo-test-docsrs-${{ hashFiles('**/Cargo.toml') }}
       - uses: dtolnay/rust-toolchain@master
+        if: matrix.os == 'ubuntu-latest'
         with:
           toolchain: ${{ env.NIGHTLY_TOOLCHAIN }}
       - name: Test with docsrs cfg
-        run: cargo test --workspace --exclude benches --lib --bins --tests
+        if: matrix.os == 'ubuntu-latest'
+        run: cargo +nightly test --workspace --exclude benches --lib --bins --tests
         env:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "--cfg docsrs"
